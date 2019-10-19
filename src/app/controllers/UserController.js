@@ -10,8 +10,10 @@ class UserController {
       password: Yup.string().required().min(6),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(422).json({ error: 'Validation fails.' });
+    try {
+      await schema.validate(req.body);
+    } catch (err) {
+      return res.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
     const userExists = await User.findOne({ where: { email: req.body.email } });
@@ -38,12 +40,13 @@ class UserController {
         .when('password', (password, field) => (password ? field.required().oneOf([Yup.ref('password')]) : field)),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(422).json({ error: 'Validation fails.' });
+    try {
+      await schema.validate(req.body);
+    } catch (err) {
+      return res.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
     const { email, oldPassword } = req.body;
-
     const user = await User.findByPk(req.userId);
 
     if (email !== user.email) {

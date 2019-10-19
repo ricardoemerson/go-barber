@@ -11,12 +11,13 @@ class SessionController {
       password: Yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(422).json({ error: 'Validation fails.' });
+    try {
+      await schema.validate(req.body);
+    } catch (err) {
+      return res.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
     const { email, password } = req.body;
-
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
