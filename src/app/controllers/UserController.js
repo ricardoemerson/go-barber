@@ -4,6 +4,9 @@ import User from '../models/User';
 
 class UserController {
   async store(req, res) {
+    /**
+     * Validate user input data.
+     */
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().email().required(),
@@ -16,12 +19,18 @@ class UserController {
       return res.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
+    /**
+     * Checks if the user already exists.
+     */
     const userExists = await User.findOne({ where: { email: req.body.email } });
 
     if (userExists) {
       return res.status(422).json({ error: 'User already exists.' });
     }
 
+    /**
+     * Create a new user.
+     */
     const { id, name, email, provider } = await User.create(req.body);
 
     return res.status(201).json({
@@ -30,6 +39,9 @@ class UserController {
   }
 
   async update(req, res) {
+    /**
+     * Validate user input data.
+     */
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
@@ -46,6 +58,9 @@ class UserController {
       return res.status(422).json({ error: `Validation fails: ${ err.message }` });
     }
 
+    /**
+     * Checks if the user has changed their email address to an existing one.
+     */
     const { email, oldPassword } = req.body;
     const user = await User.findByPk(req.userId);
 
@@ -57,10 +72,16 @@ class UserController {
       }
     }
 
+    /**
+     * Checks if the user password is valid.
+     */
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: 'Password does not match.' });
     }
 
+    /**
+     * Update the user data.
+     */
     const { id, name, provider } = await user.update(req.body);
 
     return res.json({
