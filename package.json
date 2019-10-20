@@ -28,6 +28,7 @@
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "foreman": "^3.0.1",
     "nodemon": "^1.19.4",
     "sequelize-cli": "^5.5.1",
     "sucrase": "^3.10.1"
