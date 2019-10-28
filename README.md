@@ -33,7 +33,7 @@
 
 A aplicação que iremos dar início ao desenvolvimento a partir de agora é um app gerenciador de agendamentos de uma barbearia, o **GoBarber**.
 
-Abaixo segue todo o conteúdo que foi abordado no curso para o desenvolvimento da aplciação.
+Abaixo segue todo o conteúdo que foi abordado no curso para o desenvolvimento da aplicação.
 
 ## Iniciando back-end do GoBarber
 
