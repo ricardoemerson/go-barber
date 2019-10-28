@@ -31,4 +31,4 @@ class Database {
   }
 }
 
-module.exports = new Database();
+export default new Database();
